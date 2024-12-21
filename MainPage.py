@@ -220,11 +220,14 @@ def UserSignUpCard():
             UserID = SGF.GetRandomID("UserID", 1000000, 9999999, "User")
             InsertNewUser(UserID, UserName, UserSex, Password, UserPhone, FamilyID, "User")
 
-            # 更新家庭人数
-            SGF.SystemCur.execute("SELECT FamilyPeopleNum FROM Family WHERE FamilyID={}".format(FamilyID))
-            FamilyNum = SGF.SystemCur.fetchall()[0][0]
-            SGF.SystemCur.execute("UPDATE Family SET FamilyPeopleNum={} WHERE FamilyID={}".format(FamilyNum+1, FamilyID))
-            SGF.SystemConn.commit()
+            # 当用户选择加入家庭，更改数据
+            if FamilyID != 0:
+
+                # 更新家庭人数
+                SGF.SystemCur.execute("SELECT FamilyPeopleNum FROM Family WHERE FamilyID={}".format(FamilyID))
+                FamilyNum = SGF.SystemCur.fetchall()[0][0]
+                SGF.SystemCur.execute("UPDATE Family SET FamilyPeopleNum={} WHERE FamilyID={}".format(FamilyNum+1, FamilyID))
+                SGF.SystemConn.commit()
             
             # 更新用户登录状态为已登录
             time.sleep(1)
