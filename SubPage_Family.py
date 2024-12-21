@@ -34,6 +34,19 @@ if UserInput == "加入已有家庭":
             streamlit.success("可加入：{}".format(FamilyRes[0][1]))
             FamilyID = GetFamilyID
 
+            if streamlit.button("确认加入"):
+
+                # 数据库操作，更新用户家庭状态
+                UpdateUserFamily = "UPDATE User SET Family_FamilyID={} WHERE UserID={}".format(GetFamilyID, streamlit.session_state.UserID)
+                SGF.SystemCur.execute(UpdateUserFamily)
+                SGF.SystemConn.commit()
+
+                # 提示新建完成
+                streamlit.success("加入成功")
+                time.sleep(0.5)
+                streamlit.session_state.UserSignIn = 2
+                streamlit.rerun()
+
 
 # 用户选择”新建家庭“
 elif UserInput == "新建家庭":
@@ -65,7 +78,7 @@ elif UserInput == "新建家庭":
             SGF.SystemConn.commit()
 
             # 数据库操作，更新用户家庭状态
-            UpdateUserFamily = "UPDATE User SET Family_FamilyID={} WHERE UserID={}".format(GetFamilyID, int(streamlit.session_state.UserID))
+            UpdateUserFamily = "UPDATE User SET Family_FamilyID={} WHERE UserID={}".format(GetFamilyID, streamlit.session_state.UserID)
             SGF.SystemCur.execute(UpdateUserFamily)
             SGF.SystemConn.commit()
 
