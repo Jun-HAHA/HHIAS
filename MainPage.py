@@ -271,7 +271,7 @@ with streamlit.sidebar:
     if streamlit.session_state.UserSignIn == 0:
 
         # 页面元素：问候标题
-        streamlit.title("{}好".format(SGF.GetTimeState()))
+        streamlit.title("你好")
 
         # 页面元素：登录/注册容器
         SignInContainer = streamlit.container(border = True)
