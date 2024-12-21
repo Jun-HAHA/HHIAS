@@ -235,7 +235,7 @@ def UserSignUpCard():
             # 当用户选择不加入家庭
             else:
                 # 更新状态
-                streamlit.session_state.UserSignIn = 2
+                streamlit.session_state.UserSignIn = 1
 
             # 更新用户登录状态为已登录
             time.sleep(1)
