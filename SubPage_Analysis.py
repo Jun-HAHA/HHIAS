@@ -331,28 +331,46 @@ def GetPresonItemCount():
 
     # 查询个人购买最多的商品名称
     SGF.SystemCur.execute("SELECT ItemName,COUNT(*) AS count FROM Bill WHERE User_UserID={} GROUP BY ItemName ORDER BY count DESC LIMIT 1".format(streamlit.session_state.UserID))
-    GetItemRes = SGF.SystemCur.fetchall()[0][0]
+    
+    # 检测是否有结果
+    GetItemRes = SGF.SystemCur.fetchall()
 
-    # 查询该商品的均价
-    SGF.SystemCur.execute("SELECT AVG(ItemPrice) FROM Bill WHERE ItemName='{}'".format(GetItemRes))
-    GetPriceRes = SGF.SystemCur.fetchall()[0][0]
+    # 为空停止查找
+    if len(GetItemRes) == 0:
+        return "没有商品", 0
 
-    # 返回推荐信息（0：物品 1：均价）
-    return GetItemRes, GetPriceRes
+    # 不为空继续查找
+    else:
+
+        # 查询该商品的均价
+        SGF.SystemCur.execute("SELECT AVG(ItemPrice) FROM Bill WHERE ItemName='{}'".format(GetItemRes[0][0]))
+        GetPriceRes = SGF.SystemCur.fetchall()[0][0]
+
+        # 返回推荐信息（0：物品 1：均价）
+        return GetItemRes[0][0], GetPriceRes
 
 # 获取家庭购买最多的商品名称
 def GetFamilyItemCount():
 
     # 查询家庭购买最多的商品名称
     SGF.SystemCur.execute("SELECT ItemName,COUNT(*) AS count FROM Bill WHERE User_Family_FamilyID={} GROUP BY ItemName ORDER BY count DESC LIMIT 1".format(SGF.GetUserFamilyID(streamlit.session_state.UserID)))
-    GetItemRes = SGF.SystemCur.fetchall()[0][0]
 
-    # 查询该商品的均价
-    SGF.SystemCur.execute("SELECT AVG(ItemPrice) FROM Bill WHERE ItemName='{}'".format(GetItemRes))
-    GetPriceRes = SGF.SystemCur.fetchall()[0][0]
+    # 检测是否有结果
+    GetItemRes = SGF.SystemCur.fetchall()
 
-    # 返回推荐信息（0：物品 1：均价）
-    return GetItemRes, GetPriceRes
+    # 为空停止查找
+    if len(GetItemRes) == 0:
+        return "没有商品", 0
+    
+    # 不为空继续查找
+    else:
+
+        # 查询该商品的均价
+        SGF.SystemCur.execute("SELECT AVG(ItemPrice) FROM Bill WHERE ItemName='{}'".format(GetItemRes[0][0]))
+        GetPriceRes = SGF.SystemCur.fetchall()[0][0]
+
+        # 返回推荐信息（0：物品 1：均价）
+        return GetItemRes[0][0], GetPriceRes
 
 # 获取本月均价下降最多的商品名称
 def GetItemPriceFlowData():
