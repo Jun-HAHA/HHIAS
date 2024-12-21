@@ -232,6 +232,7 @@ def UserSignUpCard():
             # 更新用户登录状态为已登录
             time.sleep(1)
             streamlit.session_state.UserSignIn = 1
+            streamlit.rerun()
 
 # 页面元素： 个人信息对话框
 @streamlit.dialog(title = "我的账号")
