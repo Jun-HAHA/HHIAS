@@ -12,18 +12,6 @@ ItemCategoryOption = ["日用", "厨具", "清洁", "食品", "数码", "药物"
 # 通用数据库连接
 SystemConn = sqlite3.connect("HHIAS.db", check_same_thread = False, timeout = 10)
 SystemCur = SystemConn.cursor()
-
-# 通用功能函数：获取当前时间状态
-def GetTimeState():
-    TimeState = datetime.datetime.now().hour
-    if TimeState in [6,7,8,9,10,11]:
-        return "早上"
-    elif TimeState in [12,13,14]:
-        return "中午"
-    elif TimeState in [15,16,17,18]:
-        return "下午"
-    else:
-        return "晚上"
     
 # 通用功能函数：转换时间类型
 # DateStr：日期字符串
