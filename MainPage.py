@@ -228,10 +228,18 @@ def UserSignUpCard():
                 FamilyNum = SGF.SystemCur.fetchall()[0][0]
                 SGF.SystemCur.execute("UPDATE Family SET FamilyPeopleNum={} WHERE FamilyID={}".format(FamilyNum+1, FamilyID))
                 SGF.SystemConn.commit()
-            
+
+                # 更新状态
+                streamlit.session_state.UserSignIn = 2
+
+            # 当用户选择不加入家庭
+            else:
+                # 更新状态
+                streamlit.session_state.UserSignIn = 2
+
             # 更新用户登录状态为已登录
             time.sleep(1)
-            streamlit.session_state.UserSignIn = 1
+            streamlit.session_state.UserID = UserID
             streamlit.rerun()
 
 # 页面元素： 个人信息对话框
